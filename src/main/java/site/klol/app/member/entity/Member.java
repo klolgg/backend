@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import site.klol.app.common.entity.BaseEntity;
 
-@Table(name = "member")
+@Table(name = "member", schema = "klol")
 @Entity
 public class Member extends BaseEntity {
 

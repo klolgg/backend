@@ -1,7 +1,11 @@
 #!/bin/bash
 
+# 스크립트 파일위치
+SCRIPT_DIR="$(dirname "$0")"
+# mariadb volume
+DB_VOLUME_DIR="$(dirname "$(realpath "$0")")/db"
 # 환경변수 불러오기
-source ./env.sh
+source "$SCRIPT_DIR/env.sh"
 
 # 도커 이미지 빌드
 echo "이미지 빌드: $IMAGE_NAME"
@@ -14,6 +18,6 @@ if [[ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]]; then
     docker rm $CONTAINER_NAME
 fi
 
-# Docker 컨테이너 실행 (데몬 모드)
+# Docker 컨테이너 실행 (데몬 모드) todo: volume을 docker/db/ 경로에 설정하고 .gitignore에 volume 추가
 echo "새로운 컨테이너를 실행합니다: $CONTAINER_NAME"
-docker run -d --name $CONTAINER_NAME -p 3306:3306 $IMAGE_NAME
+docker run -d --name $CONTAINER_NAME -p 3306:3306 -v "$DB_VOLUME_DIR":/var/lib/mysql $IMAGE_NAME
