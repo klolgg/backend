@@ -7,4 +7,4 @@ WORKDIR /app
 COPY app.jar app.jar
 
 # 애플리케이션 실행
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=prd", "-jar", "app.jar"]
