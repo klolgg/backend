@@ -10,6 +10,9 @@ env:
   CONTAINER_NAME: klol-server
   JAR_FILE_NAME: app-0.0.1-SNAPSHOT.jar
   TARGET_FILE_NAME: app.jar
+  REPOSITORY: klolgg/backend
+  APPLICATION_NAME: klol-codedeploy-01
+  DEPLOYMENT_GROUP_NAME: was-ec2-deployment-group-01
 
 permissions:
   contents: read
@@ -67,3 +70,13 @@ jobs:
           cp build/libs/${{ env.JAR_FILE_NAME }} ${{ env.TARGET_FILE_NAME }}
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: create deployment at CodeDeploy
+        env:
+          COMMIT_ID: ${{github.sha}}
+        run: |
+          aws deploy create-deployment \
+          --application-name ${{ env.APPLICATION_NAME }} \
+          --deployment-group-name ${{ env.DEPLOYMENT_GROUP_NAME }} \
+          --github-location commitId=$COMMIT_ID,repository=${{ env.REPOSITORY }} \
+          --file-exists-behavior OVERWRITE
