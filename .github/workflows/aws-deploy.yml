@@ -5,9 +5,9 @@ on:
     branches: [ "main" ]
 
 env:
-  AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: klol/was           # set this to your Amazon ECR repository name
-  CONTAINER_NAME: klol-server           # set this to the name of the container in the
+  AWS_REGION: ap-northeast-2
+  ECR_REPOSITORY: klol/was
+  CONTAINER_NAME: klol-server
   JAR_FILE_NAME: app-0.0.1-SNAPSHOT.jar
   TARGET_FILE_NAME: app.jar
 
@@ -67,4 +67,3 @@ jobs:
           cp build/libs/${{ env.JAR_FILE_NAME }} ${{ env.TARGET_FILE_NAME }}
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
