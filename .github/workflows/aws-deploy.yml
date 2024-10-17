@@ -11,8 +11,8 @@ env:
   JAR_FILE_NAME: app-0.0.1-SNAPSHOT.jar
   TARGET_FILE_NAME: app.jar
   REPOSITORY: klolgg/backend
-  APPLICATION_NAME: klol-codedeploy-01
-  DEPLOYMENT_GROUP_NAME: was-ec2-deployment-group-01
+  APPLICATION_NAME: klol-codedeploy
+  DEPLOYMENT_GROUP_NAME: was-ec2-deployment-group
 
 permissions:
   contents: read
@@ -75,7 +75,6 @@ jobs:
         env:
           COMMIT_ID: ${{github.sha}}
         run: |
-          echo ${{github.sha}}
           aws deploy create-deployment \
           --application-name ${{ env.APPLICATION_NAME }} \
           --deployment-group-name ${{ env.DEPLOYMENT_GROUP_NAME }} \
