@@ -4,6 +4,13 @@ files:
   - source: /
     destination: /home/ec2-user
 file_exists_behavior: OVERWRITE
+permissions:
+  - object: /home/ec2-user
+    pattern: '**'
+    owner: root
+    group: root
+    file_mode: 755
+    directory_mode: 755
 hooks:
   AfterInstall:
     - location: scripts/terminate_container.sh # docker ct 종료, image 삭제
