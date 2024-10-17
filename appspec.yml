@@ -4,16 +4,14 @@ files:
   - source: /
     destination: /home/ec2-user
 hooks:
-  ApplicationStop:
+  AfterInstall:
     - location: scripts/terminate_container.sh # docker ct 종료, image 삭제
       timeout: 300
       runas: root
-  BeforeInstall:
+  ApplicationStart:
     - location: scripts/pull_images.sh #
       timeout: 300
       runas: root
-
-  ApplicationStart:
     - location: scripts/start_container.sh
       timeout: 300
       runas: root
