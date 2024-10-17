@@ -75,7 +75,7 @@ jobs:
         env:
           COMMIT_ID: ${{github.sha}}
         run: |
-          env
+          echo ${{github.sha}}
           aws deploy create-deployment \
           --application-name ${{ env.APPLICATION_NAME }} \
           --deployment-group-name ${{ env.DEPLOYMENT_GROUP_NAME }} \
