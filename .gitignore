@@ -39,3 +39,6 @@ out/
 /mariadb/db/
 
 !**/src/main/resources/application-local.yml
+
+### QueryDSL ###
+src/main/generated/
