@@ -1,4 +1,4 @@
-package site.klol.app.member.entity;
+package site.klol.app.user.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,11 +6,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
 import site.klol.app.common.entity.BaseEntity;
 
-@Table(name = "member", schema = "klol")
+@Table(name = "user", schema = "klol")
 @Entity
-public class Member extends BaseEntity {
+@Getter
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +27,5 @@ public class Member extends BaseEntity {
 
     @Column(name = "nickname", nullable = false, unique = true)
     private String nickname;
-    @Column(name = "nickname2", nullable = false, unique = true)
-    private String nickname2;
+
 }
