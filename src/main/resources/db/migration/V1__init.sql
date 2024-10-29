@@ -1,4 +1,6 @@
-CREATE TABLE user
+CREATE SCHEMA klol;
+
+CREATE TABLE klol.member
 (
     seq_no     BIGINT AUTO_INCREMENT PRIMARY KEY,
     id         VARCHAR(255) NOT NULL,
