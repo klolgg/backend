@@ -11,7 +11,9 @@ public class ApiUtils {
     public static ApiResult<Void> success() {
         return new ApiResult<>(ApiResCode.SUCCESS, ApiResMsg.SUCCESS, null);
     }
-
+    public static ApiResult<Void> fail() {
+        return new ApiResult<>(ApiResCode.FAIL, ApiResMsg.FAIL, null);
+    }
     @AllArgsConstructor
     @NoArgsConstructor
     @Getter

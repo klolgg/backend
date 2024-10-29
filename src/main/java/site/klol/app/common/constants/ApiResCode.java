@@ -7,4 +7,6 @@ import lombok.NoArgsConstructor;
 public class ApiResCode {
     // 2xxx
     public static final String SUCCESS = "2000";
+    // 4xxx
+    public static final String FAIL = "4000";
 }
