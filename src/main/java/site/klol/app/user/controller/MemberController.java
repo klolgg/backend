@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import site.klol.app.common.utils.ApiUtils;
+import site.klol.app.user.dto.LoginReqDto;
 import site.klol.app.user.dto.SignUpReqDTO;
 import site.klol.app.user.service.MemberService;
 
@@ -22,6 +23,13 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<ApiUtils.ApiResult<Void>> registerUser(@Valid @RequestBody SignUpReqDTO signUpReqDTO) {
         memberService.createUser(signUpReqDTO);
+        return ResponseEntity.ok(ApiUtils.success());
+    }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiUtils.ApiResult<Void>> loginUser(@Valid @RequestBody LoginReqDto loginReqDto){
+        memberService.login(loginReqDto);
         return ResponseEntity.ok(ApiUtils.success());
     }
 }
