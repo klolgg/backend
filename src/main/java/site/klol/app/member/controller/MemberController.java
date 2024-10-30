@@ -4,12 +4,12 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import site.klol.app.common.utils.ApiUtils;
 import site.klol.app.common.utils.ApiUtils.ApiResult;
@@ -23,7 +23,7 @@ import site.klol.app.member.service.MemberService;
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping("/signup")
+    @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiUtils.ApiResult<Void>> registerUser(@Valid @RequestBody SignUpReqDTO signUpReqDTO) {
         memberService.createUser(signUpReqDTO);
         return ResponseEntity.ok(ApiUtils.success());
