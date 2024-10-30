@@ -1,5 +1,3 @@
-CREATE SCHEMA klol;
-
 CREATE TABLE klol.member
 (
     seq_no     BIGINT AUTO_INCREMENT PRIMARY KEY,
