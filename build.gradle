@@ -53,6 +53,12 @@ dependencies {
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
+	// Spring Boot Starter Test with Reactor Test for WebFlux testing
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+
 	runtimeOnly "com.h2database:h2:${h2Version}"
 
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
