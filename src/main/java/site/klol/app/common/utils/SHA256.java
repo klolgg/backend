@@ -1,8 +1,11 @@
 package site.klol.app.common.utils;
 
+import lombok.experimental.UtilityClass;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@UtilityClass
 public class SHA256 {
 
     // 평문 텍스트를 SHA-256 해시로 변환하는 메서드 회원가입 시 사용
