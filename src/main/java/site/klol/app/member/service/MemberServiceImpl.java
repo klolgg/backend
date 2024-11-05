@@ -26,7 +26,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     private void validateIdAndNickNameIsUnique(SignUpReqDTO signUpReqDTO) {
-        if( memberRepository.findByIdOrNickname(signUpReqDTO.getId(), signUpReqDTO.getNickname()).isPresent()){
+        final String id = signUpReqDTO.getId();
+        final String nickname = signUpReqDTO.getNickname();
+
+        if( memberRepository.existsByNickname(nickname) || memberRepository.existsById(id) ){
             throw new EntityExistsException("아이디 혹은 닉네임은 고유해야 합니다.");
         }
     }

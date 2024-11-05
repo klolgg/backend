@@ -38,13 +38,21 @@ class MemberRepositoryTest {
     static final String NOT_DUP_ID = "notDupId";
     static final String NOT_DUP_NICKNAME = "notDupNickname";
 
-    static Stream<Arguments> provideIdAndNicknameAndExpect() {
+    static Stream<Arguments> provideIdAndExpect() {
         return Stream.of(
-                Arguments.of(DUP_ID, NOT_DUP_NICKNAME,true),
-                Arguments.of(NOT_DUP_ID, DUP_NICKNAME,true),
-                Arguments.of(NOT_DUP_ID, NOT_DUP_NICKNAME, false),
-                Arguments.of(DUP_ID, DUP_NICKNAME,true)
+                Arguments.of(DUP_ID,true),
+                Arguments.of(NOT_DUP_ID,false),
+                Arguments.of(NOT_DUP_ID, false),
+                Arguments.of(DUP_ID,true)
+        );
+    }
 
+    static Stream<Arguments> provideNicknameAndExpect() {
+        return Stream.of(
+                Arguments.of(NOT_DUP_NICKNAME,false),
+                Arguments.of(DUP_NICKNAME,true),
+                Arguments.of(NOT_DUP_NICKNAME, false),
+                Arguments.of(DUP_NICKNAME,true)
         );
     }
 
@@ -59,11 +67,19 @@ class MemberRepositoryTest {
     }
 
     @ParameterizedTest
-    @MethodSource("provideIdAndNicknameAndExpect")
-    void findByIdOrNickname(String id, String nickname, boolean expect) {
-        // given & when
-        Optional<Member> target = memberRepository.findByIdOrNickname(id, nickname);
+    @MethodSource("provideIdAndExpect")
+    void existsById(String id, boolean expect) {
+        // when
+        boolean target = memberRepository.existsById(id);
         // then
-        Assertions.assertEquals(expect, target.isPresent());
+        Assertions.assertEquals(expect, target);
+    }
+    @ParameterizedTest
+    @MethodSource("provideNicknameAndExpect")
+    void existsByNickname(String nickname, boolean expect) {
+        // when
+        boolean target = memberRepository.existsByNickname(nickname);
+        // then
+        Assertions.assertEquals(expect, target);
     }
 }

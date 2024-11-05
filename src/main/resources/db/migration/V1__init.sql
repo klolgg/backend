@@ -1,4 +1,4 @@
-CREATE TABLE klol.member
+CREATE TABLE member
 (
     seq_no     BIGINT AUTO_INCREMENT PRIMARY KEY,
     id         VARCHAR(255) NOT NULL,
