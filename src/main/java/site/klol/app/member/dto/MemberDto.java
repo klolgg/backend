@@ -1,15 +1,12 @@
-package site.klol.app.user.dto;
+package site.klol.app.member.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-
-@Getter
-@Setter
-public class SignUpReqDTO {
+@Data
+public class MemberDto {
     @NotBlank
     @Length(min=6, max=16)
     @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "아이디는 알파벳과 숫자만 포함할 수 있습니다.")

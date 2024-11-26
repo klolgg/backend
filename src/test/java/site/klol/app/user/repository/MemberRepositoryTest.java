@@ -1,6 +1,5 @@
 package site.klol.app.user.repository;
 
-import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import site.klol.app.common.utils.SHA256;
-import site.klol.app.user.entity.Member;
+import site.klol.app.member.entity.Member;
+import site.klol.app.member.repository.MemberRepository;
 
 import java.util.Optional;
 import java.util.stream.Stream;

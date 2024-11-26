@@ -1,4 +1,4 @@
-package site.klol.app.user.service;
+package site.klol.app.member.service;
 
 
 import jakarta.persistence.EntityExistsException;
@@ -6,10 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import site.klol.app.common.utils.SHA256;
-import site.klol.app.user.dto.LoginReqDto;
-import site.klol.app.user.dto.SignUpReqDTO;
-import site.klol.app.user.entity.Member;
-import site.klol.app.user.repository.MemberRepository;
+import site.klol.app.member.dto.LoginReqDto;
+import site.klol.app.member.dto.LogoutReqDto;
+import site.klol.app.member.dto.SignUpReqDTO;
+import site.klol.app.member.entity.Member;
+import site.klol.app.member.repository.MemberRepository;
 
 import java.util.NoSuchElementException;
 
@@ -41,6 +42,11 @@ public class MemberServiceImpl implements MemberService {
         if(!verifyPassword(plainInputPassword, hashedMemberPassword)){
             throw new NoSuchElementException("아이디 혹은 비밀번호가 일치하지 않습니다.");
         }
+    }
+
+    @Override
+    public void logout(LogoutReqDto logoutReqDto) {
+
     }
 
 

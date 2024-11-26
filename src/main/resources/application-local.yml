@@ -13,3 +13,10 @@ spring:
         dialect: org.hibernate.dialect.MariaDBDialect
   flyway:
     enabled: true
+
+
+jwt:
+  expiration_time: 86400000 #1일
+  secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
+
+출처: https://sjh9708.tistory.com/170 [데굴데굴 개발자의 기록:티스토리]

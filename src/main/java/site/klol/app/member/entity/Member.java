@@ -1,4 +1,4 @@
-package site.klol.app.user.entity;
+package site.klol.app.member.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.klol.app.common.entity.BaseEntity;
 import site.klol.app.common.utils.SHA256;
-import site.klol.app.user.dto.SignUpReqDTO;
+import site.klol.app.member.dto.SignUpReqDTO;
 
 @Table(name = "member", schema = "klol")
 @Entity
