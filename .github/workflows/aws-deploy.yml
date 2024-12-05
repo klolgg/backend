@@ -1,0 +1,82 @@
+name: Deploy to Amazon EC2(was)
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  AWS_REGION: ap-northeast-2
+  ECR_REPOSITORY: klol/was
+  CONTAINER_NAME: klol-server
+  JAR_FILE_NAME: app-0.0.1-SNAPSHOT.jar
+  TARGET_FILE_NAME: app.jar
+  REPOSITORY: klolgg/backend
+  APPLICATION_NAME: klol-codedeploy
+  DEPLOYMENT_GROUP_NAME: was-ec2-deployment-group
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.4.0
+        with:
+          distribution: 'temurin' # 배포판을 지정해야 함
+          java-version: '17'
+          java-package: jdk
+
+      - name: Build with Gradle
+        run: |
+          ./gradlew build -x test
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Delete all images of Amazon ECR # 과금 문제로 image:latest 1개만 유지하기 위해 모두 삭제.
+        run: |
+          REPO_NAME=${{ env.ECR_REPOSITORY }}  # ECR 저장소 이름
+          IMAGE_DIGESTS=$(aws ecr list-images --repository-name $REPO_NAME --query 'imageIds[*]' --output json)
+          
+          if [[ $IMAGE_DIGESTS == "[]" ]]; then
+            echo "No images found in repository."
+          else
+            echo "Deleting all images..."
+            aws ecr batch-delete-image --repository-name $REPO_NAME --image-ids "$IMAGE_DIGESTS"
+          fi
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: latest
+        run: |
+          cp build/libs/${{ env.JAR_FILE_NAME }} ${{ env.TARGET_FILE_NAME }}
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: create deployment at CodeDeploy
+        env:
+          COMMIT_ID: ${{github.sha}}
+        run: |
+          aws deploy create-deployment \
+          --application-name ${{ env.APPLICATION_NAME }} \
+          --deployment-group-name ${{ env.DEPLOYMENT_GROUP_NAME }} \
+          --github-location commitId=$COMMIT_ID,repository=${{ env.REPOSITORY }} \
+          --file-exists-behavior OVERWRITE

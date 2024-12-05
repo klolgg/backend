@@ -1,0 +1,80 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.3'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'site.klol'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+ext{
+	h2Version = '2.2.220'
+	mapstructVersion = '1.6.2'
+	queryDSLVersion = '5.0.0'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// queryDSL
+	implementation "com.querydsl:querydsl-jpa:${queryDSLVersion}:jakarta"
+	annotationProcessor "com.querydsl:querydsl-apt:${queryDSLVersion}:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// mapstruct
+	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+	// Spring Boot Starter Test with Reactor Test for WebFlux testing
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+
+	runtimeOnly "com.h2database:h2:${h2Version}"
+
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+def generated = 'src/main/generated'
+tasks.withType(JavaCompile){
+	options.getGeneratedSourceOutputDirectory().set(file(generated))
+}
+
+sourceSets {
+	main.java.srcDirs += [generated]
+}
+clean{
+	delete file(generated)
+}
+tasks.named('test') {
+	useJUnitPlatform()
+}

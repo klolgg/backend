@@ -1,0 +1,16 @@
+version: 0.0
+os: linux
+hooks:
+  AfterInstall:
+    - location: scripts/terminate_container.sh # docker ct 종료, image 삭제
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/pull_images.sh #
+      timeout: 300
+      runas: root
+    - location: scripts/start_container.sh
+      timeout: 300
+      runas: root
+
+
