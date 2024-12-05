@@ -1,0 +1,2 @@
+ALTER TABLE klol.member
+    ADD COLUMN nickname2 VARCHAR(255) NOT NULL UNIQUE;
